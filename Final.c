@@ -46,19 +46,11 @@ int main(int argc, char const *argv[])
 
     //----------------------------------------
     
-    //print pixels in HEX value.
-/*
-    int i = 0;
-    printf("%d\n", totaalAantalPixels);
-    while(i<totaalAantalPixels*3){
-        printf("%X|%X|%X\n",pixels[i],pixels[i+1], pixels[i+2]);
-        i=i+3;
-    }
-*/
+
     int keuze=0;
     printf("BLUR ------------- [1]\n");
     printf("MONOCHROME ------- [2]\n");
-    printf("=> \n");
+    printf("=> ");
     scanf("%d",&keuze);
 
     if(keuze==1)
@@ -73,15 +65,6 @@ int main(int argc, char const *argv[])
     printf("result\n");
     printf("\n");
 
-  /*
-    //printen van de output in hex
-    i = 0;
-    printf("%d\n", totaalAantalPixels);
-    while(i<totaalAantalPixels*3){
-        printf("%X|%X|%X\n",pixels[i],pixels[i+1], pixels[i+2]);
-        i=i+3;
-    }
-*/
     //output file aanmaken of openen 
     FILE * OUTPUT = fopen(BMPOUTPUT, "wb");
     //de bmp header toewijzen aan de output file
