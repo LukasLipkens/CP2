@@ -117,3 +117,4 @@ int main(int argc, char const *argv[])
     printf("INFO: Heap memory Freed = %d (bytes)\n", totaalAantalPixels*3);
     return 0;
 }
+//test git
