@@ -15,14 +15,15 @@ Public Function ToBlackAndWhite(ByVal bmp As Bitmap) As Bitmap
                 r = col.R
                 g = col.G
                 b = col.B
+//-----------------------------------------------------------------
                 gem = (r + g + b) / 3
-
                 If gem > 128 Then
                     bmp.SetPixel(x, y, Color.White)
                 Else
                     bmp.SetPixel(x, y, Color.Black)
                 End If
-
+//-----------------------------------------------------------------
+//dit zou kunnen werken, eerst omvormen naar C code. 
             Next y
         Next x
 
