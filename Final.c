@@ -91,7 +91,7 @@ int main(int argc, char const *argv[])
     printf("result\n");
     printf("\n");
 
-/*  
+  /*
     //printen van de output in hex
     i = 0;
     printf("%d\n", totaalAantalPixels);
