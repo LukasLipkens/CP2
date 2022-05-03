@@ -8,3 +8,5 @@ werd gebruikt om te leren hoe een monochrome color filter werkt.
 
 https://dyclassroom.com/csharp-project/how-to-convert-a-color-image-into-grayscale-image-in-csharp-using-visual-studio
 werd gebruikt om te leren hoe een greyscale color filter werkt.
+
+ZERO padding nog aan werken
