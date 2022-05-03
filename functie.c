@@ -25,9 +25,9 @@ int main(int argc, char const *argv[])
 
     fread(header, 1, 54, inputBMP);
 
-    breedte = header[21] << 24 | header[20] << 16 | header[19] << 8 | header[18]; 
+    breedte = header[21] << 24 | header[20] << 16 | header[19] << 8 | header[18];
     printf("De breedte van mijn afbeelding is = %d\n", breedte);
-    hoogte = header[25] << 24 | header[24] << 16 | header[23] << 8 | header[22]; 
+    hoogte = header[25] << 24 | header[24] << 16 | header[23] << 8 | header[22];
     printf("De hoogte van mijn afbeelding is = %d\n", hoogte);
 
     totaalAantalPixels = breedte * hoogte;
@@ -45,7 +45,7 @@ int main(int argc, char const *argv[])
     printf("INFO: File %s CLOSED\n", BMPINPUT);
 
     //----------------------------------------
-    
+
     //print pixels in HEX value.
 /*
     int i = 0;
@@ -82,7 +82,7 @@ int main(int argc, char const *argv[])
         i=i+3;
     }
 */
-    //output file aanmaken of openen 
+    //output file aanmaken of openen
     FILE * OUTPUT = fopen(BMPOUTPUT, "wb");
     //de bmp header toewijzen aan de output file
     fwrite(header,sizeof(char),sizeof(header),OUTPUT);
@@ -104,7 +104,7 @@ int main(int argc, char const *argv[])
 void blur(unsigned char * pixels, signed int breedte, signed int hoogte)
 {
     int x,y,deler;
-    int gridx, gridy;    
+    int gridx, gridy;
     int gemR, gemB, gemG;
     int grid=0;
 
@@ -168,24 +168,12 @@ void mono(unsigned char * pixels, signed int breedte, signed int hoogte)
                     deler++;
                 }
             }
-            //gemiddelde berekenen per pixelKleur
-            //even testen zonder bluren
-            // gemB = gemB / deler;
-            // gemG = gemG / deler;
-            // gemR = gemR / deler;
-            //de gemiddeldes toewijzen aan de pixel
+
             gemA = (gemB + gemG + gemR) / 3;
-            if (gemA > 128) {
-              pixels[gridx*3 + gridy*breedte*3 + 0] = 255;
-              pixels[gridx*3 + gridy*breedte*3 + 1] = 255;
-              pixels[gridx*3 + gridy*breedte*3 + 2] = 255;
-            } 
-            else{
-            pixels[gridx*3 + gridy*breedte*3 + 0] = 0;
-            pixels[gridx*3 + gridy*breedte*3 + 1] = 0;
-            pixels[gridx*3 + gridy*breedte*3 + 2] = 0;
-            }
+            pixels[gridx*3 + gridy*breedte*3 + 0] = gemA;
+            pixels[gridx*3 + gridy*breedte*3 + 1] = gemA;
+            pixels[gridx*3 + gridy*breedte*3 + 2] = gemA;
+            
         }
     }
 }
-
