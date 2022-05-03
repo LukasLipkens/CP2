@@ -84,15 +84,17 @@ int main(int argc, char const *argv[])
             // gemG = gemG / deler;
             // gemR = gemR / deler;
             //de gemiddeldes toewijzen aan de pixel
-            gemA = (gemB + gemG + gemR) / 3
+            gemA = (gemB + gemG + gemR) / 3;
             if (gemA > 128) {
               pixels[gridx*3 + gridy*breedte*3 + 0] = 255;
               pixels[gridx*3 + gridy*breedte*3 + 1] = 255;
               pixels[gridx*3 + gridy*breedte*3 + 2] = 255;
-            } Else
-            pixels[gridx*3 + gridy*breedte*3 + 0] = 0;
-            pixels[gridx*3 + gridy*breedte*3 + 1] = 0;
-            pixels[gridx*3 + gridy*breedte*3 + 2] = 0;
+            } else{
+              
+              pixels[gridx*3 + gridy*breedte*3 + 0] = 0;
+              pixels[gridx*3 + gridy*breedte*3 + 1] = 0;
+              pixels[gridx*3 + gridy*breedte*3 + 2] = 0;
+            }
         }
     }
     printf("\n");
