@@ -54,7 +54,7 @@ int main(int argc, char const *argv[])
         i=i+3;
     }
 */
-    int x,y,gem;
+    int x,y,deler;
     int gridx, gridy;    
     int gemR, gemB, gemG;
 
@@ -63,7 +63,7 @@ int main(int argc, char const *argv[])
         for(gridy = 0; gridy < hoogte; gridy++)
         {
             gemB = gemG = gemR = 0;
-            gem = 0;
+            deler = 0;
 
             for(x = gridx; x < breedte && x < gridx + grid/*blurSize*/; x++)
             {
@@ -74,13 +74,13 @@ int main(int argc, char const *argv[])
                     gemB += pixels[x*3 + y*breedte*3 + 0];
                     gemG += pixels[x*3 + y*breedte*3 + 1];
                     gemR += pixels[x*3 + y*breedte*3 + 2];
-                    gem++;
+                    deler++;
                 }
             }
             //gemiddelde berekenen per pixelKleur
-            gemB = gemB / gem;
-            gemG = gemG / gem;
-            gemR = gemR / gem;
+            gemB = gemB / deler;
+            gemG = gemG / deler;
+            gemR = gemR / deler;
             //de gemiddeldes toewijzen aan de pixel
             pixels[gridx*3 + gridy*breedte*3 + 0] = gemB;
             pixels[gridx*3 + gridy*breedte*3 + 1] = gemG;
