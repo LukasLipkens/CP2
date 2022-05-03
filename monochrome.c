@@ -1,4 +1,5 @@
 // zou misg werken
+// file in visual basic
 
 Public Function ToBlackAndWhite(ByVal bmp As Bitmap) As Bitmap
         Dim x As Integer
