@@ -5,7 +5,8 @@
 #define BMPINPUT "naamloos.bmp"
 #define BMPOUTPUT "output.bmp"
 
-void processing(unsigned char * pixels, signed int breedte, signed int hoogte);
+void blur(unsigned char * pixels, signed int breedte, signed int hoogte);
+void mono(unsigned char * pixels, signed int breedte, signed int hoogte);
 
 int main(int argc, char const *argv[])
 {
@@ -54,7 +55,20 @@ int main(int argc, char const *argv[])
         i=i+3;
     }
 */
-    processing(pixels, breedte, hoogte);
+    int keuze=0;
+    printf("BLUR ------------- [1]\n");
+    printf("MONOCHROME ------- [2]\n");
+    printf("=> \n");
+    scanf("%d",&keuze);
+
+    if(keuze==1)
+    {
+        blur(pixels, breedte, hoogte);
+    }
+    else
+    {
+        mono(pixels, breedte, hoogte);
+    }
     printf("\n");
     printf("result\n");
     printf("\n");
@@ -87,7 +101,7 @@ int main(int argc, char const *argv[])
 }
 
 
-void processing(unsigned char * pixels, signed int breedte, signed int hoogte)
+void blur(unsigned char * pixels, signed int breedte, signed int hoogte)
 {
     int x,y,deler;
     int gridx, gridy;    
@@ -127,3 +141,51 @@ void processing(unsigned char * pixels, signed int breedte, signed int hoogte)
         }
     }
 }
+
+void mono(unsigned char * pixels, signed int breedte, signed int hoogte)
+{
+    int x,y,deler;
+    int gridx, gridy;
+    int gemR, gemB, gemG, gemA;
+
+        for(gridx = 0; gridx <breedte; gridx++)
+    {
+        for(gridy = 0; gridy < hoogte; gridy++)
+        {
+            gemB = gemG = gemR = 0;
+            deler = 0;
+
+            //voor monochrome te maken moet de blursize om 1 staan denk.
+            for(x = gridx; x < breedte && x < gridx + 1/*blurSize*/; x++)
+            {
+
+
+               for(y = gridy; y < hoogte && y < gridy + 1/*blurSize*/; y++)
+                {
+                    gemB += pixels[x*3 + y*breedte*3 + 0];
+                    gemG += pixels[x*3 + y*breedte*3 + 1];
+                    gemR += pixels[x*3 + y*breedte*3 + 2];
+                    deler++;
+                }
+            }
+            //gemiddelde berekenen per pixelKleur
+            //even testen zonder bluren
+            // gemB = gemB / deler;
+            // gemG = gemG / deler;
+            // gemR = gemR / deler;
+            //de gemiddeldes toewijzen aan de pixel
+            gemA = (gemB + gemG + gemR) / 3;
+            if (gemA > 128) {
+              pixels[gridx*3 + gridy*breedte*3 + 0] = 255;
+              pixels[gridx*3 + gridy*breedte*3 + 1] = 255;
+              pixels[gridx*3 + gridy*breedte*3 + 2] = 255;
+            } 
+            else{
+            pixels[gridx*3 + gridy*breedte*3 + 0] = 0;
+            pixels[gridx*3 + gridy*breedte*3 + 1] = 0;
+            pixels[gridx*3 + gridy*breedte*3 + 2] = 0;
+            }
+        }
+    }
+}
+
