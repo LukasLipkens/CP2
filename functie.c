@@ -168,26 +168,12 @@ void mono(unsigned char * pixels, signed int breedte, signed int hoogte)
                     deler++;
                 }
             }
-            //gemiddelde berekenen per pixelKleur
-            //even testen zonder bluren
-            // gemB = gemB / deler;
-            // gemG = gemG / deler;
-            // gemR = gemR / deler;
-            //de gemiddeldes toewijzen aan de pixel
+
             gemA = (gemB + gemG + gemR) / 3;
             pixels[gridx*3 + gridy*breedte*3 + 0] = gemA;
             pixels[gridx*3 + gridy*breedte*3 + 1] = gemA;
             pixels[gridx*3 + gridy*breedte*3 + 2] = gemA;
-            // if (gemA > 128) {
-            //   pixels[gridx*3 + gridy*breedte*3 + 0] = 255;
-            //   pixels[gridx*3 + gridy*breedte*3 + 1] = 255;
-            //   pixels[gridx*3 + gridy*breedte*3 + 2] = 255;
-            // }
-            // else{
-            // pixels[gridx*3 + gridy*breedte*3 + 0] = 0;
-            // pixels[gridx*3 + gridy*breedte*3 + 1] = 0;
-            // pixels[gridx*3 + gridy*breedte*3 + 2] = 0;
-            // }
+            
         }
     }
 }

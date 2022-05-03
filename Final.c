@@ -7,6 +7,8 @@
 
 void blur(unsigned char * pixels, signed int breedte, signed int hoogte);
 void mono(unsigned char * pixels, signed int breedte, signed int hoogte);
+void grey(unsigned char * pixels, signed int breedte, signed int hoogte);
+
 
 int main(int argc, char const *argv[])
 {
@@ -50,6 +52,7 @@ int main(int argc, char const *argv[])
     int keuze=0;
     printf("BLUR ------------- [1]\n");
     printf("MONOCHROME ------- [2]\n");
+    printf("GREYSCALE--------- [3]\n");
     printf("=> ");
     scanf("%d",&keuze);
 
@@ -57,13 +60,18 @@ int main(int argc, char const *argv[])
     {
         blur(pixels, breedte, hoogte);
     }
-    else
+    if(keuze==2)
     {
         mono(pixels, breedte, hoogte);
+    }
+    else
+    {
+        grey(pixels,breedte, hoogte);
     }
     printf("\n");
     printf("result\n");
     printf("\n");
+
 
     //output file aanmaken of openen 
     FILE * OUTPUT = fopen(BMPOUTPUT, "wb");
@@ -167,3 +175,38 @@ void mono(unsigned char * pixels, signed int breedte, signed int hoogte)
     }
 }
 
+void grey(unsigned char * pixels, signed int breedte, signed int hoogte)
+{
+    int x,y,deler;
+    int gridx, gridy;
+    int gemR, gemB, gemG, gemA;
+
+        for(gridx = 0; gridx <breedte; gridx++)
+    {
+        for(gridy = 0; gridy < hoogte; gridy++)
+        {
+            gemB = gemG = gemR = 0;
+            deler = 0;
+
+            //voor monochrome te maken moet de blursize om 1 staan denk.
+            for(x = gridx; x < breedte && x < gridx + 1/*blurSize*/; x++)
+            {
+
+
+               for(y = gridy; y < hoogte && y < gridy + 1/*blurSize*/; y++)
+                {
+                    gemB += pixels[x*3 + y*breedte*3 + 0];
+                    gemG += pixels[x*3 + y*breedte*3 + 1];
+                    gemR += pixels[x*3 + y*breedte*3 + 2];
+                    deler++;
+                }
+            }
+
+            gemA = (gemB + gemG + gemR) / 3;
+            pixels[gridx*3 + gridy*breedte*3 + 0] = gemA;
+            pixels[gridx*3 + gridy*breedte*3 + 1] = gemA;
+            pixels[gridx*3 + gridy*breedte*3 + 2] = gemA;
+            
+        }
+    }
+}
