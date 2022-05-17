@@ -64,7 +64,7 @@ int main(int argc, char const *argv[])
     {
         mono(pixels, breedte, hoogte);
     }
-    else
+    if(keuze==3)
     {
         grey(pixels,breedte, hoogte);
     }
