@@ -102,19 +102,21 @@ void blur(unsigned char * pixels, signed int breedte, signed int hoogte)
     printf("met welke grid wilt u de afbeelding smoothen:");
     scanf("%d", &grid);
 
-    for(gridx = 0; gridx <breedte; gridx++)
+    for(gridx = 0; gridx <breedte; gridx++) //x coordinaat
     {
-        for(gridy = 0; gridy < hoogte; gridy++)
+        for(gridy = 0; gridy < hoogte; gridy++) // y coordinaat
         {
             gemB = gemG = gemR = 0;
             deler = 0;
 
-            for(x = gridx; x < breedte && x < gridx + grid/*blurSize*/; x++)
+            for(x = gridx -grid/2; x < breedte && x < gridx + grid/*blurSize*/; x++)
             {
-
-
-               for(y = gridy; y < hoogte && y < gridy + grid/*blurSize*/; y++)
+                //printf("i get to here\n");
+                if(x>0){
+                for(y = gridy -grid/2; y < hoogte && y < gridy + grid/*blurSize*/; y++)
                 {
+                    //printf("i get to here p2\n");
+                    if(y>0){
                     gemB += pixels[x*3 + y*breedte*3 + 0];
 
                     gemG += pixels[x*3 + y*breedte*3 + 1];
@@ -122,7 +124,13 @@ void blur(unsigned char * pixels, signed int breedte, signed int hoogte)
                     gemR += pixels[x*3 + y*breedte*3 + 2];
                     
                     deler++; //na elke pixel deler optellen voor gemiddelde brekenen
+                    }
+                    else{}
+
+
                 }
+                }
+                else{}
             }
             //gemiddelde berekenen per pixelKleur
             gemB = gemB / deler;
@@ -163,6 +171,8 @@ void mono(unsigned char * pixels, signed int breedte, signed int hoogte)
                 }
             }
 
+            
+
             gemA = (gemB + gemG + gemR) / 3;
             if (gemA > 128) {
               pixels[gridx*3 + gridy*breedte*3 + 0] = 255;
@@ -185,7 +195,7 @@ void grey(unsigned char * pixels, signed int breedte, signed int hoogte)
     int gemR, gemB, gemG, gemA;
 
         for(gridx = 0; gridx <breedte; gridx++)
-    {
+    {   
         for(gridy = 0; gridy < hoogte; gridy++)
         {
             gemB = gemG = gemR = 0;
