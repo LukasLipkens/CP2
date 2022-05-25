@@ -8,10 +8,20 @@
 void blur(unsigned char * pixels, signed int breedte, signed int hoogte);
 void mono(unsigned char * pixels, signed int breedte, signed int hoogte);
 void grey(unsigned char * pixels, signed int breedte, signed int hoogte);
+void gaas(unsigned char * pixels, signed int breedte, signed int hoogte);
 
 
 int main(int argc, char const *argv[])
 {
+
+  printf(" _    _ _____ _     _____ ________  __ _____\n");
+printf("| |  | |  ___| |   /  __ \\  _  |  \\/  |  ___|\n");
+printf("| |  | | |__ | |   | /  \\/ | | | .  . |  |__\n");
+printf("| |/\\| |  __|| |   | |   | | | | |\\/| |   __|\n");
+printf("\\  /\\  / |___| |___| \\__/\\ \\_/ / |  | |  |___\n");
+printf(" \\/  \\/\\____/\\_____/\\____/\\___/\\_|  |_/\\____/\n\n\n");
+
+
     FILE * inputBMP = fopen(BMPINPUT, "rb");
     unsigned char header[54] = {0};
     signed int hoogte = 0;
@@ -27,9 +37,9 @@ int main(int argc, char const *argv[])
 
     fread(header, 1, 54, inputBMP);
 
-    breedte = header[21] << 24 | header[20] << 16 | header[19] << 8 | header[18]; 
+    breedte = header[21] << 24 | header[20] << 16 | header[19] << 8 | header[18];
     printf("De breedte van mijn afbeelding is = %d\n", breedte);
-    hoogte = header[25] << 24 | header[24] << 16 | header[23] << 8 | header[22]; 
+    hoogte = header[25] << 24 | header[24] << 16 | header[23] << 8 | header[22];
     printf("De hoogte van mijn afbeelding is = %d\n", hoogte);
 
     totaalAantalPixels = breedte * hoogte;
@@ -47,12 +57,13 @@ int main(int argc, char const *argv[])
     printf("INFO: File %s CLOSED\n", BMPINPUT);
 
     //----------------------------------------
-    
+
 
     int keuze=0;
     printf("BLUR ------------- [1]\n");
     printf("MONOCHROME ------- [2]\n");
     printf("GREYSCALE--------- [3]\n");
+    printf("OLD TV FIlTER -----[4]\n");
     printf("=> ");
     scanf("%d",&keuze);
 
@@ -68,12 +79,16 @@ int main(int argc, char const *argv[])
     {
         grey(pixels,breedte, hoogte);
     }
+    if(keuze==4)
+    {
+      gaas(pixels,breedte, hoogte);
+    }
     printf("\n");
     printf("result\n");
     printf("\n");
 
 
-    //output file aanmaken of openen 
+    //output file aanmaken of openen
     FILE * OUTPUT = fopen(BMPOUTPUT, "wb");
     //de bmp header toewijzen aan de output file
     fwrite(header,sizeof(char),sizeof(header),OUTPUT);
@@ -95,7 +110,7 @@ int main(int argc, char const *argv[])
 void blur(unsigned char * pixels, signed int breedte, signed int hoogte)
 {
     int x,y,deler;
-    int gridx, gridy;    
+    int gridx, gridy;
     int gemR, gemB, gemG;
     int grid=0;
 
@@ -122,7 +137,7 @@ void blur(unsigned char * pixels, signed int breedte, signed int hoogte)
                     gemG += pixels[x*3 + y*breedte*3 + 1];
 
                     gemR += pixels[x*3 + y*breedte*3 + 2];
-                    
+
                     deler++; //na elke pixel deler optellen voor gemiddelde brekenen
                     }
                     else{}
@@ -171,14 +186,14 @@ void mono(unsigned char * pixels, signed int breedte, signed int hoogte)
                 }
             }
 
-            
+
 
             gemA = (gemB + gemG + gemR) / 3;
             if (gemA > 128) {
               pixels[gridx*3 + gridy*breedte*3 + 0] = 255;
               pixels[gridx*3 + gridy*breedte*3 + 1] = 255;
               pixels[gridx*3 + gridy*breedte*3 + 2] = 255;
-            } 
+            }
             else{
             pixels[gridx*3 + gridy*breedte*3 + 0] = 0;
             pixels[gridx*3 + gridy*breedte*3 + 1] = 0;
@@ -195,7 +210,7 @@ void grey(unsigned char * pixels, signed int breedte, signed int hoogte)
     int gemR, gemB, gemG, gemA;
 
         for(gridx = 0; gridx <breedte; gridx++)
-    {   
+    {
         for(gridy = 0; gridy < hoogte; gridy++)
         {
             gemB = gemG = gemR = 0;
@@ -219,7 +234,42 @@ void grey(unsigned char * pixels, signed int breedte, signed int hoogte)
             pixels[gridx*3 + gridy*breedte*3 + 0] = gemA;
             pixels[gridx*3 + gridy*breedte*3 + 1] = gemA;
             pixels[gridx*3 + gridy*breedte*3 + 2] = gemA;
-            
+
+        }
+    }
+}
+void gaas(unsigned char * pixels, signed int breedte, signed int hoogte)
+{
+    int x,y,deler;
+    int gridx, gridy;
+    int gemR, gemB, gemG, gemA;
+
+        for(gridx = 0; gridx <breedte; gridx++)
+    {
+        for(gridy = 0; gridy < hoogte; gridy++)
+        {
+            gemB = gemG = gemR = 0;
+            deler = 0;
+
+
+            for(x = gridx; x < breedte && x < gridx + 1; x++)
+            {
+
+
+               for(y = gridy; y < hoogte && y < gridy + 1; y++)
+                {
+                    gemB += pixels[x*3 + y*breedte*3 + 0];
+                    gemG += pixels[x*3 + y*breedte*3 + 1];
+                    gemR += pixels[x*3 + y*breedte*3 + 2];
+                    deler++;
+                }
+            }
+
+            gemA = ((gemB *3) + gemG /gemG + gemR *gemR);
+            pixels[gridx*3 + gridy*breedte*3 + 0] = gemA;
+            pixels[gridx*3 + gridy*breedte*3 + 1] = gemA;
+            pixels[gridx*3 + gridy*breedte*3 + 2] = gemA;
+
         }
     }
 }
